@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    height: 100vh;
+    
+}
+
+/* Container */
+
+.calc-container {
+    height: 550px;
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: crimson;
+    border-radius: 15px;
+}
+
+.calc-interface {
+    height: 80px;
+    width: 88%;
+    margin-top: 30px;
+    background-color: grey;
+    border-radius: 5px;
+}
+
+.interface-text {
+    display: flex;
+    height: inherit;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 10px;
+    font-size: 20px;
+    
+}
+
+/* Buttons */
+
+.calc-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+button {
+    border-radius: 10px;
+    border: solid 1px black;
+}
+
+.row-one > button, 
+.row-two > button, 
+.row-three > button,
+.row-four > button {
+    width: 70px;
+    height: 50px;
+    margin: 5px 0;
+}
+
+.row-five > button {
+    margin: 5px 0;
+}
+
+.zero {
+    width: 154px;
+    height: 50px;
+}
+
+.decimal,
+.equal {
+    width: 70px;
+    height: 50px;
+}
