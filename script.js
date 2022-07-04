@@ -1,6 +1,5 @@
-// TO -DO
 
-// numPressed and symPressed variables for button control
+// NOTES FOR FUTURE CHANGES
 
 
 // Global Variables
@@ -28,206 +27,273 @@ const clearBtn =  document.getElementById("clear-button");
 const posNegBtn = document.getElementById("pos-neg-button");
 const percentBtn = document.getElementById("percentage-button");
 
-
-// Calculator Functionality
-
-let storedNumber = '0'
-let currentNumber = ''
+let interfaceNumber = ''
 let storedOperator = ''
-let continueEquation = false
+let storedNumberOne = ''
+let storedNumberTwo = ''
 
-let numPressed
-let symPressed
+let numPressed = false
+let symPressed = false
+let isTypingValue = false
+
+let equationStep = 0
 
 
+// Button Functionality
 
 clearBtn.addEventListener("click", function() {
-    currentNumber = ''
-    storedNumber = ''
+    storedNumberTwo = ''
+    storedNumberOne = ''
+    equationStep = 0
     interfaceText.textContent = 0 
 })
 
 oneBtn.addEventListener("click", function() {
-    currentNumber += "1"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "1"
+    interfaceText.textContent = interfaceNumber
 })
 
 twoBtn.addEventListener("click", function() {
-    currentNumber += "2"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "2"
+    interfaceText.textContent = interfaceNumber
 })
 
 threeBtn.addEventListener("click", function() {
-    currentNumber += "3"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "3"
+    interfaceText.textContent = interfaceNumber
 })
 
 fourBtn.addEventListener("click", function() {
-    currentNumber += "4"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "4"
+    interfaceText.textContent = interfaceNumber
 })
 
 fiveBtn.addEventListener("click", function() {
-    currentNumber += "5"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "5"
+    interfaceText.textContent = interfaceNumber
 })
 
 sixBtn.addEventListener("click", function() {
-    currentNumber += "6"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "6"
+    interfaceText.textContent = interfaceNumber
 })
 
 sevenBtn.addEventListener("click", function() {
-    currentNumber += "7"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "7"
+    interfaceText.textContent = interfaceNumber
 })
 
 eightBtn.addEventListener("click", function() {
-    currentNumber += "8"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "8"
+    interfaceText.textContent = interfaceNumber
 })
 
 nineBtn.addEventListener("click", function() {
-    currentNumber += "9"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "9"
+    interfaceText.textContent = interfaceNumber
 })
 
 zeroBtn.addEventListener("click", function() {
-    currentNumber += "0"
-    interfaceText.textContent = currentNumber
+    numPressed = true
+    symPressed = false
+    isTypingValue = true
+    resetDisplay()
+    interfaceNumber += "0"
+    interfaceText.textContent = interfaceNumber
 })
 
 plusBtn.addEventListener("click", function() {
-
-    const storedParse = parseInt(storedNumber)
-    const currentParse = parseInt(currentNumber)
-    
-    if (continueEquation) {
-        storedOperator = "+"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-        continueEquation = false
+ 
+   if (isTypingValue == false) {
+        storedOperator = '+'
+   }
+  
+    // Collects first value of equation 
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = '+'
     }
-
-    else {
-        storedNumber = add(storedParse, currentParse);
-        storedOperator = "+"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-    } 
+    // Changes the storedOperator without executing calculation
+    else if (symPressed) {
+        storedOperator = '+'
+    }
+    // Executes calculation
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = '+'
+    }
 })
 
 minusBtn.addEventListener("click", function() {
 
-
-    const storedParse = parseInt(storedNumber)
-    const currentParse = parseInt(currentNumber)
+    if (isTypingValue == false) {
+        storedOperator = '-'
+    }
     
-    if (continueEquation) {
-        storedOperator = "-"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-        continueEquation = false
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = '-'
     }
 
-    else {
-        storedNumber = subtract(storedParse, currentParse);
-        storedOperator = "-"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-    } 
+    else if (symPressed) {
+        storedOperator = '-'
+    }
+
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = '-'
+    }
 })
 
 multiplyBtn.addEventListener('click', function() {
-
-    if (storedNumber == '0') {
-        storedNumber = '1'
-    }
-
-    console.log(currentNumber)
-    console.log(storedNumber)
     
-    const storedParse = parseInt(storedNumber)
-    const currentParse = parseInt(currentNumber)
-
-    if (continueEquation) {
-        storedOperator = "*"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-        continueEquation = false
+    if (isTypingValue == false) {
+        storedOperator = '*'
+    }
+    
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = '*'
     }
 
-    else {
-        storedNumber = multiply(storedParse, currentParse).toString();
-        storedOperator = "*"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
+    else if (symPressed) {
+        storedOperator = '*'
+    }
+
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = '*'  
     } 
 })
 
 divideBtn.addEventListener('click', function() {
 
-    if (storedNumber == '0') {
-        storedNumber = '1'
+    if (isTypingValue == false) {
+        storedOperator = '/'
+   }
+
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = '/'
     }
 
-    // console.log(currentNumber)
-    // console.log(storedNumber)
-
-
-    const storedParse = parseInt(storedNumber)
-    const currentParse = parseInt(currentNumber)
-
-    if (continueEquation) {
-        storedOperator = "/"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-        continueEquation = false
+    else if (symPressed) {
+        storedOperator = '/'
     }
 
-    if (storedNumber == '1') {
-        storedNumber = divide(currentParse, storedParse).toString();
-        storedOperator = "/"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = '/'
     }
+})
 
-    else {
-        storedNumber = divide(storedParse, currentParse).toString();
-        storedOperator = "/"
-        interfaceText.textContent = storedNumber.toString()
-        currentNumber = ''
-    } 
+percentBtn.addEventListener('click', function() {
+
+})
+
+posNegBtn.addEventListener('click', function() {
+
+})
+
+decimalBtn.addEventListener('click', function() {
+
 })
 
 equalBtn.addEventListener("click", function() {
+    getResult()
+})
+
+//  Functions
+
+function collectValue(passedValue, recipientValue) {
+    recipientValue = passedValue
+    return recipientValue
+}
+
+function displayValue(value) {
+    return interfaceText.textContent = value.toString()
+}
+
+function resetDisplay() {
+    if (numPressed == true) {
+        interfaceNumber = ''
+        numPressed = false
+    }
+}
+
+function calculate(valueOne, valueTwo) {
 
     let result
-   
-    const storedParse = parseInt(storedNumber)
-    const currentParse = parseInt(currentNumber)
 
     if (storedOperator == "+") {
-        result = add(storedParse, currentParse)
+        result = add(valueOne, valueTwo)
     }
 
     else if (storedOperator == "-") {
-        result = subtract(storedParse, currentParse)
+        result = subtract(valueOne, valueTwo)
     }
 
     else if (storedOperator == "*") {
-        result = multiply(storedParse, currentParse)
+        result = multiply(valueOne, valueTwo)
     }
 
     else if (storedOperator == "/") {
-        result = divide(storedParse, currentParse)
+        result = divide(valueOne, valueTwo)
     }
 
-    storedNumber = result.toString()
-    interfaceText.textContent = storedNumber 
-    continueEquation = true
-})
+    return result
+}
 
+function getResult() {
+
+    storedNumberTwo = collectValue(interfaceNumber, storedNumberTwo)
+
+    let storedOneParse = parseInt(storedNumberOne)
+    let storedTwoParse = parseInt(storedNumberTwo)
+
+    storedNumberOne = calculate(storedOneParse, storedTwoParse)
+    displayValue(storedNumberOne)
+    
+    storedNumberTwo = ''
+    symPressed = true
+    isTypingValue = false   
+}
 
 function add(a, b) {
     return a + b
@@ -245,15 +311,3 @@ function divide(a, b) {
     return a / b
 }
 
-// currentNumber is number shown on interface (string)
-
-// currentParse is number on interface changed from string to an actual number
-
-// storedNumber is number stored for later use (string)
-
-// storedParse is stored number changed from a string to an actual number
-
-    // console.log(currentParse)
-    // console.log(storedParse)
-    // console.log(currentNumber)
-    // console.log(storedNumber)
