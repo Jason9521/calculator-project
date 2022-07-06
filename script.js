@@ -36,7 +36,6 @@ let numPressed = false
 let symPressed = false
 let isTypingValue = false
 
-let equationStep = 0
 
 
 // Button Functionality
@@ -44,105 +43,106 @@ let equationStep = 0
 clearBtn.addEventListener("click", function() {
     storedNumberTwo = ''
     storedNumberOne = ''
-    equationStep = 0
     interfaceText.textContent = 0 
 })
 
 oneBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "1"
     interfaceText.textContent = interfaceNumber
 })
 
 twoBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "2"
     interfaceText.textContent = interfaceNumber
 })
 
 threeBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "3"
     interfaceText.textContent = interfaceNumber
 })
 
 fourBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "4"
     interfaceText.textContent = interfaceNumber
 })
 
 fiveBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "5"
     interfaceText.textContent = interfaceNumber
 })
 
 sixBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "6"
     interfaceText.textContent = interfaceNumber
 })
 
 sevenBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "7"
     interfaceText.textContent = interfaceNumber
 })
 
 eightBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "8"
     interfaceText.textContent = interfaceNumber
 })
 
 nineBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "9"
     interfaceText.textContent = interfaceNumber
 })
 
 zeroBtn.addEventListener("click", function() {
+    resetDisplay()
     numPressed = true
     symPressed = false
     isTypingValue = true
-    resetDisplay()
     interfaceNumber += "0"
     interfaceText.textContent = interfaceNumber
 })
 
 plusBtn.addEventListener("click", function() {
+
+    numPressed = false
  
    if (isTypingValue == false) {
         storedOperator = '+'
-   }
+    }
   
     // Collects first value of equation 
     if (storedNumberOne === '') {
@@ -158,9 +158,13 @@ plusBtn.addEventListener("click", function() {
         getResult()
         storedOperator = '+'
     }
+
+    numPressed = false
 })
 
 minusBtn.addEventListener("click", function() {
+
+    numPressed = false
 
     if (isTypingValue == false) {
         storedOperator = '-'
@@ -182,6 +186,8 @@ minusBtn.addEventListener("click", function() {
 })
 
 multiplyBtn.addEventListener('click', function() {
+
+    numPressed = false
     
     if (isTypingValue == false) {
         storedOperator = '*'
@@ -204,6 +210,8 @@ multiplyBtn.addEventListener('click', function() {
 
 divideBtn.addEventListener('click', function() {
 
+    numPressed = false
+
     if (isTypingValue == false) {
         storedOperator = '/'
    }
@@ -221,11 +229,24 @@ divideBtn.addEventListener('click', function() {
         getResult()
         storedOperator = '/'
     }
-})
-
-percentBtn.addEventListener('click', function() {
 
 })
+
+// percentBtn.addEventListener('click', function() {
+//     let storedOneParse = parseInt(storedNumberOne)
+
+//     if (storedNumberOne == '') {
+//         storedNumberOne = percentage(parseInt(interfaceNumber))
+//     }
+
+//     else {
+//         storedNumberOne = percentage(storedOneParse)
+//     }
+    
+//     displayValue(storedNumberOne)
+//     storedNumberTwo = ''
+//     console.log(storedNumberOne)
+// })
 
 posNegBtn.addEventListener('click', function() {
 
@@ -243,6 +264,7 @@ equalBtn.addEventListener("click", function() {
 
 function collectValue(passedValue, recipientValue) {
     recipientValue = passedValue
+    numPressed = false
     return recipientValue
 }
 
@@ -251,9 +273,9 @@ function displayValue(value) {
 }
 
 function resetDisplay() {
-    if (numPressed == true) {
+    if (numPressed == false) {
         interfaceNumber = ''
-        numPressed = false
+        numPressed = true
     }
 }
 
@@ -311,3 +333,8 @@ function divide(a, b) {
     return a / b
 }
 
+function percentage(a) {
+    return a / 100
+}
+
+// fix resetDisplay
