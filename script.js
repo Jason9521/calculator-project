@@ -26,6 +26,7 @@ const equalBtn = document.getElementById("equal-button");
 const clearBtn =  document.getElementById("clear-button");
 const posNegBtn = document.getElementById("pos-neg-button");
 const percentBtn = document.getElementById("percentage-button");
+const backSpaceBtn = document.getElementById("backspace-button")
 
 let interfaceNumber = ''
 let storedOperator = ''
@@ -35,6 +36,8 @@ let storedNumberTwo = ''
 let numPressed = false
 let symPressed = false
 let isTypingValue = false
+let negative = false
+let positive = true
 
 
 
@@ -43,6 +46,7 @@ let isTypingValue = false
 clearBtn.addEventListener("click", function() {
     storedNumberTwo = ''
     storedNumberOne = ''
+    interfaceNumber = ''
     interfaceText.textContent = 0 
 })
 
@@ -133,6 +137,42 @@ zeroBtn.addEventListener("click", function() {
     symPressed = false
     isTypingValue = true
     interfaceNumber += "0"
+    interfaceText.textContent = interfaceNumber
+})
+
+posNegBtn.addEventListener('click', function() {
+
+    if (positive == true && negative == false) {
+        interfaceNumber = "-" + interfaceNumber
+        positive = false
+        negative = true
+    }
+
+    else {
+        interfaceNumber = interfaceNumber.replace('-', '')
+        positive = true
+        negative = false
+    }
+    
+    interfaceText.textContent = interfaceNumber
+})
+
+decimalBtn.addEventListener('click', function() {
+
+    if (!interfaceNumber.includes(".")) {
+        resetDisplay()
+        numPressed = true
+        symPressed = false
+        isTypingValue = true
+        interfaceNumber += "."
+        interfaceText.textContent = interfaceNumber
+    }
+
+ 
+})
+
+backSpaceBtn.addEventListener('click', function() {
+    interfaceNumber = interfaceNumber.substring(0, interfaceNumber.length - 1)
     interfaceText.textContent = interfaceNumber
 })
 
@@ -229,32 +269,27 @@ divideBtn.addEventListener('click', function() {
         getResult()
         storedOperator = '/'
     }
-
 })
 
-// percentBtn.addEventListener('click', function() {
-//     let storedOneParse = parseInt(storedNumberOne)
+percentBtn.addEventListener('click', function() {
 
-//     if (storedNumberOne == '') {
-//         storedNumberOne = percentage(parseInt(interfaceNumber))
-//     }
+    if (storedNumberOne == '') {
+        storedNumberOne = percentage(parseFloat(interfaceNumber)).toString()
+        displayValue(storedNumberOne)
+    }
 
-//     else {
-//         storedNumberOne = percentage(storedOneParse)
-//     }
+    else {
+        storedNumberOne = percentage(storedNumberOne).toString()
+        displayValue(storedNumberOne)
+    }
+
+    console.log(displayValue(storedNumberOne))
     
-//     displayValue(storedNumberOne)
-//     storedNumberTwo = ''
-//     console.log(storedNumberOne)
-// })
-
-posNegBtn.addEventListener('click', function() {
-
+    numPressed = false
+    symPressed = true
+    isTypingValue = false
 })
 
-decimalBtn.addEventListener('click', function() {
-
-})
 
 equalBtn.addEventListener("click", function() {
     getResult()
@@ -263,7 +298,7 @@ equalBtn.addEventListener("click", function() {
 //  Functions
 
 function collectValue(passedValue, recipientValue) {
-    recipientValue = passedValue
+    recipientValue = passedValue.toString()
     numPressed = false
     return recipientValue
 }
@@ -306,10 +341,10 @@ function getResult() {
 
     storedNumberTwo = collectValue(interfaceNumber, storedNumberTwo)
 
-    let storedOneParse = parseInt(storedNumberOne)
-    let storedTwoParse = parseInt(storedNumberTwo)
+    let storedOneParse = parseFloat(storedNumberOne)
+    let storedTwoParse = parseFloat(storedNumberTwo)
 
-    storedNumberOne = calculate(storedOneParse, storedTwoParse)
+    storedNumberOne = parseFloat(calculate(storedOneParse, storedTwoParse))
     displayValue(storedNumberOne)
     
     storedNumberTwo = ''
@@ -337,4 +372,10 @@ function percentage(a) {
     return a / 100
 }
 
-// fix resetDisplay
+// Tasks:
+
+// Clean up code and and better styling
+
+// Changes:
+
+// Added percent, posneg and backspace functionality
