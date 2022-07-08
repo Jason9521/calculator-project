@@ -60,16 +60,15 @@ button {
     border: solid 1px black;
 }
 
+
+
 .row-one > button, 
 .row-two > button, 
 .row-three > button,
-.row-four > button {
+.row-four > button,
+.row-five > button {
     width: 70px;
     height: 50px;
-    margin: 5px 0;
-}
-
-.row-five > button {
     margin: 5px 0;
 }
 
