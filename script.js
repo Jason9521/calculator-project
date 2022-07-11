@@ -5,6 +5,7 @@
 // Global Variables
 
 const interfaceText = document.getElementById("interface-text");
+const interfaceEquation = document.getElementById("interface-equation")
 
 const oneBtn = document.getElementById("one-button");
 const twoBtn = document.getElementById("two-button");
@@ -32,13 +33,13 @@ let interfaceNumber = ''
 let storedOperator = ''
 let storedNumberOne = ''
 let storedNumberTwo = ''
+let equationStep = 0
 
-let numPressed = false
+let numPressed = true
 let symPressed = false
 let isTypingValue = false
 let negative = false
 let positive = true
-
 
 
 // Button Functionality
@@ -47,7 +48,9 @@ clearBtn.addEventListener("click", function() {
     storedNumberTwo = ''
     storedNumberOne = ''
     interfaceNumber = ''
-    interfaceText.textContent = 0 
+    interfaceText.textContent = 0
+    interfaceEquation.textContent = 0
+    equationStep = 0 
 })
 
 oneBtn.addEventListener("click", function() {
@@ -141,7 +144,7 @@ zeroBtn.addEventListener("click", function() {
 })
 
 posNegBtn.addEventListener('click', function() {
-
+    
     if (positive == true && negative == false) {
         interfaceNumber = "-" + interfaceNumber
         positive = false
@@ -167,8 +170,6 @@ decimalBtn.addEventListener('click', function() {
         interfaceNumber += "."
         interfaceText.textContent = interfaceNumber
     }
-
- 
 })
 
 backSpaceBtn.addEventListener('click', function() {
@@ -179,6 +180,7 @@ backSpaceBtn.addEventListener('click', function() {
 plusBtn.addEventListener("click", function() {
 
     numPressed = false
+    interfaceEquation.textContent = ` + `
  
    if (isTypingValue == false) {
         storedOperator = '+'
@@ -192,11 +194,13 @@ plusBtn.addEventListener("click", function() {
     // Changes the storedOperator without executing calculation
     else if (symPressed) {
         storedOperator = '+'
+        interfaceEquation.textContent += ` ${storedOperator} `
     }
     // Executes calculation
     else if (symPressed == false) {
         getResult()
         storedOperator = '+'
+        interfaceEquation.textContent = storedNumberOne + " + "
     }
 
     numPressed = false
@@ -205,6 +209,7 @@ plusBtn.addEventListener("click", function() {
 minusBtn.addEventListener("click", function() {
 
     numPressed = false
+    interfaceEquation.textContent = ` - `
 
     if (isTypingValue == false) {
         storedOperator = '-'
@@ -222,12 +227,14 @@ minusBtn.addEventListener("click", function() {
     else if (symPressed == false) {
         getResult()
         storedOperator = '-'
+        interfaceEquation.textContent = storedNumberOne + " - "
     }
 })
 
 multiplyBtn.addEventListener('click', function() {
 
     numPressed = false
+    interfaceEquation.textContent = ` * `
     
     if (isTypingValue == false) {
         storedOperator = '*'
@@ -244,13 +251,15 @@ multiplyBtn.addEventListener('click', function() {
 
     else if (symPressed == false) {
         getResult()
-        storedOperator = '*'  
+        storedOperator = '*' 
+        interfaceEquation.textContent = storedNumberOne + " * " 
     } 
 })
 
 divideBtn.addEventListener('click', function() {
 
     numPressed = false
+    interfaceEquation.textContent = ` / `
 
     if (isTypingValue == false) {
         storedOperator = '/'
@@ -268,6 +277,7 @@ divideBtn.addEventListener('click', function() {
     else if (symPressed == false) {
         getResult()
         storedOperator = '/'
+        interfaceEquation.textContent = storedNumberOne + " / "
     }
 })
 
@@ -290,12 +300,13 @@ percentBtn.addEventListener('click', function() {
     isTypingValue = false
 })
 
-
 equalBtn.addEventListener("click", function() {
     getResult()
 })
 
+
 //  Functions
+
 
 function collectValue(passedValue, recipientValue) {
     recipientValue = passedValue.toString()
@@ -349,7 +360,8 @@ function getResult() {
     
     storedNumberTwo = ''
     symPressed = true
-    isTypingValue = false   
+    isTypingValue = false  
+    equationStep += 1 
 }
 
 function add(a, b) {
@@ -374,8 +386,9 @@ function percentage(a) {
 
 // Tasks:
 
-// Clean up code and and better styling
+// Make buttons keyboard-accessible
+// posNeg still faulty
 
 // Changes:
 
-// Added percent, posneg and backspace functionality
+// added equation to interface 
