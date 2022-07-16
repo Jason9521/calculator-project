@@ -144,20 +144,16 @@ zeroBtn.addEventListener("click", function() {
 })
 
 posNegBtn.addEventListener('click', function() {
-    
-    if (positive == true && negative == false) {
-        interfaceNumber = "-" + interfaceNumber
-        positive = false
-        negative = true
+   
+    if (interfaceText.textContent == '') {
+
     }
 
-    else {
-        interfaceNumber = interfaceNumber.replace('-', '')
-        positive = true
-        negative = false
+    else if (interfaceText.textContent !== "") {
+        interfaceNumber = -Math.abs(interfaceText.textContent)
+        interfaceText.textContent = interfaceNumber
     }
-    
-    interfaceText.textContent = interfaceNumber
+
 })
 
 decimalBtn.addEventListener('click', function() {
@@ -194,7 +190,7 @@ plusBtn.addEventListener("click", function() {
     // Changes the storedOperator without executing calculation
     else if (symPressed) {
         storedOperator = '+'
-        interfaceEquation.textContent += ` ${storedOperator} `
+        // interfaceEquation.textContent += ` ${storedOperator} `
     }
     // Executes calculation
     else if (symPressed == false) {
@@ -202,8 +198,7 @@ plusBtn.addEventListener("click", function() {
         storedOperator = '+'
         interfaceEquation.textContent = storedNumberOne + " + "
     }
-
-    numPressed = false
+    
 })
 
 minusBtn.addEventListener("click", function() {
@@ -387,8 +382,7 @@ function percentage(a) {
 // Tasks:
 
 // Make buttons keyboard-accessible
-// posNeg still faulty
+
 
 // Changes:
 
-// added equation to interface 
