@@ -1,11 +1,9 @@
 
-// NOTES FOR FUTURE CHANGES
-
-
 // Global Variables
 
 const interfaceText = document.getElementById("interface-text");
 const interfaceEquation = document.getElementById("interface-equation")
+const buttons = document.querySelector("button")
 
 const oneBtn = document.getElementById("one-button");
 const twoBtn = document.getElementById("two-button");
@@ -41,131 +39,71 @@ let isTypingValue = false
 let negative = false
 let positive = true
 
+if (interfaceText.textContent.length <= 20) {
 
 // Button Functionality
 
 clearBtn.addEventListener("click", function() {
-    storedNumberTwo = ''
-    storedNumberOne = ''
-    interfaceNumber = ''
-    interfaceText.textContent = 0
-    interfaceEquation.textContent = 0
-    equationStep = 0 
+    clearInterface()
 })
 
 oneBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "1"
-    interfaceText.textContent = interfaceNumber
+    getDigit("1")
 })
 
 twoBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "2"
-    interfaceText.textContent = interfaceNumber
+    getDigit("2")
 })
 
 threeBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "3"
-    interfaceText.textContent = interfaceNumber
+    getDigit("3")
 })
 
 fourBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "4"
-    interfaceText.textContent = interfaceNumber
+    getDigit("4")
 })
 
 fiveBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "5"
-    interfaceText.textContent = interfaceNumber
+    getDigit("5")
 })
 
 sixBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "6"
-    interfaceText.textContent = interfaceNumber
+    getDigit("6")
+
 })
 
 sevenBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "7"
-    interfaceText.textContent = interfaceNumber
+    getDigit("7")
 })
 
 eightBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "8"
-    interfaceText.textContent = interfaceNumber
+    getDigit("8")
 })
 
 nineBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "9"
-    interfaceText.textContent = interfaceNumber
+    getDigit("9")
 })
 
 zeroBtn.addEventListener("click", function() {
     resetDisplay()
-    numPressed = true
-    symPressed = false
-    isTypingValue = true
-    interfaceNumber += "0"
-    interfaceText.textContent = interfaceNumber
+    getDigit("0")
 })
 
 posNegBtn.addEventListener('click', function() {
-   
-    if (interfaceText.textContent == '') {
-
-    }
-
-    else if (interfaceText.textContent !== "") {
-        interfaceNumber = -Math.abs(interfaceText.textContent)
-        interfaceText.textContent = interfaceNumber
-    }
-
+   posNeg()
 })
 
 decimalBtn.addEventListener('click', function() {
-
-    if (!interfaceNumber.includes(".")) {
-        resetDisplay()
-        numPressed = true
-        symPressed = false
-        isTypingValue = true
-        interfaceNumber += "."
-        interfaceText.textContent = interfaceNumber
-    }
+    getDecimal()
 })
 
 backSpaceBtn.addEventListener('click', function() {
@@ -174,129 +112,318 @@ backSpaceBtn.addEventListener('click', function() {
 })
 
 plusBtn.addEventListener("click", function() {
-
-    numPressed = false
-    interfaceEquation.textContent = ` + `
- 
-   if (isTypingValue == false) {
-        storedOperator = '+'
-    }
-  
-    // Collects first value of equation 
-    if (storedNumberOne === '') {
-        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
-        storedOperator = '+'
-    }
-    // Changes the storedOperator without executing calculation
-    else if (symPressed) {
-        storedOperator = '+'
-        // interfaceEquation.textContent += ` ${storedOperator} `
-    }
-    // Executes calculation
-    else if (symPressed == false) {
-        getResult()
-        storedOperator = '+'
-        interfaceEquation.textContent = storedNumberOne + " + "
-    }
-    
+    getOperator("+") 
 })
 
 minusBtn.addEventListener("click", function() {
-
-    numPressed = false
-    interfaceEquation.textContent = ` - `
-
-    if (isTypingValue == false) {
-        storedOperator = '-'
-    }
-    
-    if (storedNumberOne === '') {
-        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
-        storedOperator = '-'
-    }
-
-    else if (symPressed) {
-        storedOperator = '-'
-    }
-
-    else if (symPressed == false) {
-        getResult()
-        storedOperator = '-'
-        interfaceEquation.textContent = storedNumberOne + " - "
-    }
+    getOperator("-")
 })
 
 multiplyBtn.addEventListener('click', function() {
-
-    numPressed = false
-    interfaceEquation.textContent = ` * `
-    
-    if (isTypingValue == false) {
-        storedOperator = '*'
-    }
-    
-    if (storedNumberOne === '') {
-        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
-        storedOperator = '*'
-    }
-
-    else if (symPressed) {
-        storedOperator = '*'
-    }
-
-    else if (symPressed == false) {
-        getResult()
-        storedOperator = '*' 
-        interfaceEquation.textContent = storedNumberOne + " * " 
-    } 
+    getOperator("*")
 })
 
 divideBtn.addEventListener('click', function() {
-
-    numPressed = false
-    interfaceEquation.textContent = ` / `
-
-    if (isTypingValue == false) {
-        storedOperator = '/'
-   }
-
-    if (storedNumberOne === '') {
-        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
-        storedOperator = '/'
-    }
-
-    else if (symPressed) {
-        storedOperator = '/'
-    }
-
-    else if (symPressed == false) {
-        getResult()
-        storedOperator = '/'
-        interfaceEquation.textContent = storedNumberOne + " / "
-    }
+    getOperator("/")
 })
 
 percentBtn.addEventListener('click', function() {
-
-    if (storedNumberOne == '') {
-        storedNumberOne = percentage(parseFloat(interfaceNumber)).toString()
-        displayValue(storedNumberOne)
-    }
-
-    else {
-        storedNumberOne = percentage(storedNumberOne).toString()
-        displayValue(storedNumberOne)
-    }
-
-    console.log(displayValue(storedNumberOne))
-    
-    numPressed = false
-    symPressed = true
-    isTypingValue = false
+    getPercentage()
 })
 
 equalBtn.addEventListener("click", function() {
     getResult()
+})
+
+}
+
+// Keyboard Functionality
+
+document.addEventListener("keydown", function(e) {
+    if (e.code == "Digit1" || e.code == "Numpad1") {
+        resetDisplay()
+        getDigit("1")
+        oneBtn.style.transform = "translateY(8%)"
+        oneBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit2"  || e.code == "Numpad2") {
+        resetDisplay()
+        getDigit("2")
+        twoBtn.style.transform = "translateY(8%)"
+        twoBtn.style.backgroundColor = "gold"
+    }
+    
+    else if (e.code == "Digit3"  || e.code == "Numpad3") {
+        resetDisplay()
+        getDigit("3")
+        threeBtn.style.transform = "translateY(8%)"
+        threeBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit4"  || e.code == "Numpad4") {
+        resetDisplay()
+        getDigit("4")
+        fourBtn.style.transform = "translateY(8%)"
+        fourBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit5") {
+
+        if (e.shiftKey) {
+            getPercentage()
+            percentBtn.style.transform = "translateY(8%)"
+            percentBtn.style.backgroundColor = "plum"
+        }
+
+        else {
+            resetDisplay()
+            getDigit("5")
+            fiveBtn.style.transform = "translateY(8%)"
+            fiveBtn.style.backgroundColor = "gold"
+        }
+    }
+
+    else if (e.code == "Numpad5") {
+        resetDisplay()
+        getDigit("5")
+        fiveBtn.style.transform = "translateY(8%)"
+        fiveBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit6"  || e.code == "Numpad6") {
+        resetDisplay()
+        getDigit("6")
+        sixBtn.style.transform = "translateY(8%)"
+        sixBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit7"  || e.code == "Numpad7") {
+        resetDisplay()
+        getDigit("7")
+        sevenBtn.style.transform = "translateY(8%)"
+        sevenBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit8") {
+        if (e.shiftKey) {
+            getOperator("*")
+            multiplyBtn.style.transform = "translateY(8%)"
+            multiplyBtn.style.backgroundColor = "plum"
+        }
+
+        else {
+            resetDisplay()
+            getDigit("8")
+            eightBtn.style.transform = "translateY(8%)"
+            eightBtn.style.backgroundColor = "gold"
+        }
+    }
+
+    else if (e.code == "Numpad8") {
+        resetDisplay()
+        getDigit("8")
+        eightBtn.style.transform = "translateY(8%)"
+        eightBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit9"  || e.code == "Numpad9") {
+        resetDisplay()
+        getDigit("9")
+        nineBtn.style.transform = "translateY(8%)"
+        nineBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Digit0"  || e.code == "Numpad0") {
+        resetDisplay()
+        getDigit("0")
+        zeroBtn.style.transform = "translateY(8%)"
+        zeroBtn.style.backgroundColor = "gold"
+    }
+
+    else if (e.code == "Delete") {
+        clearInterface()
+        clearBtn.style.transform = "translateY(8%)"
+        clearBtn.style.backgroundColor = "tomato"
+    }
+    
+    else if (e.code == "Backspace") {
+        interfaceNumber = interfaceNumber.substring(0, interfaceNumber.length - 1)
+        interfaceText.textContent = interfaceNumber
+        backSpaceBtn.style.transform = "translateY(8%)"
+        backSpaceBtn.style.backgroundColor = "tomato"
+    }
+
+    else if (e.code == "Slash" || e.code == "NumpadDivide") {
+        getOperator("/")
+        divideBtn.style.transform = "translateY(8%)"
+        divideBtn.style.backgroundColor = "plum"
+    }
+
+    else if (e.code == "NumpadMultiply") {
+        getOperator("*")
+        multiplyBtn.style.transform = "translateY(8%)"
+        multiplyBtn.style.backgroundColor = "plum"
+    }
+
+    else if (e.code == "Minus" || e.code == "NumpadSubtract") {
+        getOperator("-")
+        minusBtn.style.transform = "translateY(8%)"
+        minusBtn.style.backgroundColor = "plum"
+    }
+
+    else if (e.code == "NumpadAdd") {
+        getOperator("+")
+        plusBtn.style.transform = "translateY(8%)"
+        plusBtn.style.backgroundColor = "plum"
+    }
+
+    else if (e.code == "Equal") {
+        if (e.shiftKey) {
+            getOperator("+")
+            plusBtn.style.transform = "translateY(8%)"
+            plusBtn.style.backgroundColor = "plum"
+        }
+        else {
+            getResult()
+            equalBtn.style.transform = "translateY(8%)"
+            equalBtn.style.backgroundColor = "greenyellow"
+        }
+    }
+
+    else if (e.code == "Enter" || e.code == "NumpadEnter") {
+        getResult()
+        equalBtn.style.transform = "translateY(8%)"
+        equalBtn.style.backgroundColor = "greenyellow"
+    }
+
+    else if (e.code == "Period") {
+        getDecimal()
+        decimalBtn.style.transform = "translateY(8%)"
+        decimalBtn.style.backgroundColor = "plum"
+    }
+
+    else if (e.code == "ControlRight" || e.code == "ControlLeft") {
+        posNeg()
+        posNegBtn.style.transform = "translateY(8%)"
+        posNegBtn.style.backgroundColor = "plum"
+    }
+})
+
+
+document.addEventListener("keyup", function(e) {
+    if (e.code == "Digit1" || e.code == "Numpad1") {
+        oneBtn.style.transform = "translateY(0%)"
+        oneBtn.style.backgroundColor = "#fff"
+    }
+
+    else if (e.code == "Digit2" || e.code == "Numpad2") {
+        twoBtn.style.transform = "translateY(0%)"
+        twoBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit3" || e.code == "Numpad3") {
+        threeBtn.style.transform = "translateY(0%)"
+        threeBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit4" || e.code == "Numpad4") {
+        fourBtn.style.transform = "translateY(0%)"
+        fourBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit5") {
+
+        if (e.shiftKey) {
+            percentBtn.style.transform = "translateY(0%)"
+            percentBtn.style.backgroundColor = "#fff"
+        }
+        else {
+            fiveBtn.style.transform = "translateY(0%)"
+            fiveBtn.style.backgroundColor = "#fff"
+    }}
+
+    else if (e.code == "Numpad5") {
+        fiveBtn.style.transform = "translateY(0%)"
+        fiveBtn.style.backgroundColor = "#fff"
+    }
+
+    else if (e.code == "Digit6" || e.code == "Numpad6") {
+        sixBtn.style.transform = "translateY(0%)"
+        sixBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit7" || e.code == "Numpad7") {
+        sevenBtn.style.transform = "translateY(0%)"
+        sevenBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit8") {
+
+        if (e.shiftKey) {
+            multiplyBtn.style.transform = "translateY(0%)"
+            multiplyBtn.style.backgroundColor = "#fff"
+        }
+        else {
+            eightBtn.style.transform = "translateY(0%)"
+            eightBtn.style.backgroundColor = "#fff"
+    }}
+
+    else if (e.code == "Numpad8") {
+        eightBtn.style.transform = "translateY(0%)"
+        eightBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit9" || e.code == "Numpad9") {
+        nineBtn.style.transform = "translateY(0%)"
+        nineBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Digit0" || e.code == "Numpad0") {
+        zeroBtn.style.transform = "translateY(0%)"
+        zeroBtn.style.backgroundColor = "#fff"
+    }
+
+    else if (e.code == "Delete" ) {
+        clearBtn.style.transform = "translateY(0%)"
+        clearBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Backspace" ) {
+        backSpaceBtn.style.transform = "translateY(0%)"
+        backSpaceBtn.style.backgroundColor = "#fff"
+    }
+
+    else if (e.code == "Slash" || e.code == "NumpadDivide") {
+        divideBtn.style.transform = "translateY(0%)"
+        divideBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "NumpadMultiply" ) {
+        multiplyBtn.style.transform = "translateY(0%)"
+        multiplyBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Minus" || e.code == "NumpadSubtract") {
+        minusBtn.style.transform = "translateY(0%)"
+        minusBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Equal") {
+        if (e.shiftKey) {
+            plusBtn.style.transform = "translateY(0%)"
+            plusBtn.style.backgroundColor = "#fff"
+        }
+        else {
+            equalBtn.style.transform = "translateY(0%)"
+            equalBtn.style.backgroundColor = "#fff"
+        }
+    }
+    else if (e.code == "Enter" || e.code == "NumpadEnter") {
+        equalBtn.style.transform = "translateY(0%)"
+        equalBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "NumpadAdd" ) {
+        plusBtn.style.transform = "translateY(0%)"
+        plusBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "Period" ) {
+        decimalBtn.style.transform = "translateY(0%)"
+        decimalBtn.style.backgroundColor = "#fff"
+    }
+    else if (e.code == "ControlRight" || e.code == "ControlLeft") {
+        posNegBtn.style.transform = "translateY(0%)"
+        posNegBtn.style.backgroundColor = "#fff"
+    }
 })
 
 
@@ -319,6 +446,90 @@ function resetDisplay() {
         numPressed = true
     }
 }
+
+function clearInterface() {
+    storedNumberTwo = ''
+    storedNumberOne = ''
+    interfaceNumber = ''
+    interfaceText.textContent = 0
+    interfaceEquation.textContent = 0
+    equationStep = 0 
+}
+
+function getDigit(num) {
+    if (interfaceNumber.length <= 20) {
+        numPressed = true
+        symPressed = false
+        isTypingValue = true
+        interfaceNumber += num
+        interfaceText.textContent = interfaceNumber
+}}
+
+function getDecimal() {
+    if (!interfaceNumber.includes(".")) {
+        resetDisplay()
+        getDigit(".")
+    }
+}
+
+function getOperator(op) {
+
+    numPressed = false
+    interfaceEquation.textContent = ` ${op} `
+ 
+   if (isTypingValue == false) {
+        storedOperator = op
+    }
+  
+    // Collects first value of equation 
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = op
+    }
+    // Changes the storedOperator without executing calculation
+    else if (symPressed) {
+        storedOperator = op
+    }
+    // Executes calculation
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = op
+        interfaceEquation.textContent = storedNumberOne + ` ${op} `
+    }
+}
+
+function getPercentage() {
+
+    if (storedNumberOne == '') {
+        storedNumberOne = percentage(parseFloat(interfaceNumber)).toString()
+        displayValue(storedNumberOne)
+    }
+
+    else {
+        storedNumberOne = percentage(storedNumberOne).toString()
+        displayValue(storedNumberOne)
+    }
+
+    console.log(displayValue(storedNumberOne))
+    
+    numPressed = false
+    symPressed = true
+    isTypingValue = false
+}
+
+function posNeg() {
+    if (interfaceText.textContent == '') {}
+
+    if (interfaceText.textContent !== "") {
+        interfaceNumber = -Math.abs(interfaceText.textContent)
+        interfaceText.textContent = interfaceNumber
+    }
+
+    // else if (interfaceText.textContent !== "" && interfaceText.textContent <= 0) {
+    //     interfaceNumber = Math.abs(interfaceText.textContent)
+    //     interfaceText.textContent = interfaceNumber
+    // }
+} 
 
 function calculate(valueOne, valueTwo) {
 
@@ -378,11 +589,4 @@ function divide(a, b) {
 function percentage(a) {
     return a / 100
 }
-
-// Tasks:
-
-// Make buttons keyboard-accessible
-
-
-// Changes:
 
