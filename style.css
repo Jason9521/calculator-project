@@ -11,7 +11,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: white;
+    /* background-color: white; */
+    background-color: rgb(153, 116, 86);
     height: 100vh;
 }
 
@@ -52,6 +53,8 @@ body {
     padding: 5px;
 }
 
+
+
 .interface-equation {
     padding: 5px;
     font-size: 14px;
@@ -83,7 +86,6 @@ button {
 
 button:hover {
     cursor: pointer;
-    background-color: tan;
     transform: translateY(8%);
 }
 
