@@ -39,8 +39,6 @@ let isTypingValue = false
 let negative = false
 let positive = true
 
-if (interfaceText.textContent.length <= 20) {
-
 // Button Functionality
 
 clearBtn.addEventListener("click", function() {
@@ -75,7 +73,6 @@ fiveBtn.addEventListener("click", function() {
 sixBtn.addEventListener("click", function() {
     resetDisplay()
     getDigit("6")
-
 })
 
 sevenBtn.addEventListener("click", function() {
@@ -134,8 +131,6 @@ percentBtn.addEventListener('click', function() {
 equalBtn.addEventListener("click", function() {
     getResult()
 })
-
-}
 
 // Keyboard Functionality
 
@@ -518,17 +513,11 @@ function getPercentage() {
 }
 
 function posNeg() {
-    if (interfaceText.textContent == '') {}
 
     if (interfaceText.textContent !== "") {
-        interfaceNumber = -Math.abs(interfaceText.textContent)
+        interfaceNumber = (interfaceNumber * -1).toString()
         interfaceText.textContent = interfaceNumber
     }
-
-    // else if (interfaceText.textContent !== "" && interfaceText.textContent <= 0) {
-    //     interfaceNumber = Math.abs(interfaceText.textContent)
-    //     interfaceText.textContent = interfaceNumber
-    // }
 } 
 
 function calculate(valueOne, valueTwo) {
