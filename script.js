@@ -33,6 +33,7 @@ let storedNumberOne = ''
 let storedNumberTwo = ''
 let equationStep = 0
 
+let equalPressed = false
 let numPressed = true
 let symPressed = false
 let isTypingValue = false
@@ -42,7 +43,7 @@ let positive = true
 // Button Functionality
 
 clearBtn.addEventListener("click", function() {
-    clearInterface()
+    clearData()
 })
 
 oneBtn.addEventListener("click", function() {
@@ -130,6 +131,7 @@ percentBtn.addEventListener('click', function() {
 
 equalBtn.addEventListener("click", function() {
     getResult()
+    equalPressed = true
 })
 
 // Keyboard Functionality
@@ -237,7 +239,7 @@ document.addEventListener("keydown", function(e) {
     }
 
     else if (e.code == "Delete") {
-        clearInterface()
+        clearData()
         clearBtn.style.transform = "translateY(8%)"
         clearBtn.style.backgroundColor = "tomato"
     }
@@ -281,6 +283,7 @@ document.addEventListener("keydown", function(e) {
         }
         else {
             getResult()
+            equalPressed = true
             equalBtn.style.transform = "translateY(8%)"
             equalBtn.style.backgroundColor = "greenyellow"
         }
@@ -288,6 +291,7 @@ document.addEventListener("keydown", function(e) {
 
     else if (e.code == "Enter" || e.code == "NumpadEnter") {
         getResult()
+        equalPressed = true
         equalBtn.style.transform = "translateY(8%)"
         equalBtn.style.backgroundColor = "greenyellow"
     }
@@ -442,7 +446,7 @@ function resetDisplay() {
     }
 }
 
-function clearInterface() {
+function clearData() {
     storedNumberTwo = ''
     storedNumberOne = ''
     interfaceNumber = ''
@@ -452,6 +456,11 @@ function clearInterface() {
 }
 
 function getDigit(num) {
+    if (equalPressed) {
+        clearData()
+        equalPressed = false
+    }
+
     if (interfaceNumber.length <= 20) {
         numPressed = true
         symPressed = false
