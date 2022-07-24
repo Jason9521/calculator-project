@@ -1,4 +1,3 @@
-
 // Global Variables
 
 const interfaceText = document.getElementById("interface-text");
@@ -31,11 +30,13 @@ let interfaceNumber = ''
 let storedOperator = ''
 let storedNumberOne = ''
 let storedNumberTwo = ''
-let equationStep = 0
 
-let equalPressed = false
+interfaceText.textContent = 0
+
 let numPressed = true
 let symPressed = false
+let equalPressed = false
+let pauseEqual = true
 let isTypingValue = false
 let negative = false
 let positive = true
@@ -92,8 +93,13 @@ nineBtn.addEventListener("click", function() {
 })
 
 zeroBtn.addEventListener("click", function() {
+    if (storedOperator == "/") {
+        alert ("NOPE! TRY AGAIN!")
+    } 
+    else {
     resetDisplay()
     getDigit("0")
+    }
 })
 
 posNegBtn.addEventListener('click', function() {
@@ -130,9 +136,182 @@ percentBtn.addEventListener('click', function() {
 })
 
 equalBtn.addEventListener("click", function() {
-    getResult()
-    equalPressed = true
+    if (storedNumberOne !== "" && pauseEqual == false) {
+        getResult()  
+        equalPressed = true
+    }
 })
+
+//  Functions
+
+function collectValue(passedValue, recipientValue) {
+    recipientValue = passedValue.toString()
+    numPressed = false
+    return recipientValue
+}
+
+function displayValue(value) {
+    return interfaceText.textContent = value.toString()
+}
+
+function resetDisplay() {
+    if (numPressed == false) {
+        interfaceNumber = ''
+        numPressed = true
+    }
+}
+
+function clearData() {
+    storedNumberTwo = ''
+    storedNumberOne = ''
+    interfaceNumber = ''
+    interfaceText.textContent = 0
+    interfaceEquation.textContent = 0
+}
+
+function getDigit(num) {
+    if (equalPressed == true) {
+        clearData()
+    }
+
+    if (interfaceNumber.length <= 20) {
+        numPressed = true
+        symPressed = false
+        isTypingValue = true
+        pauseEqual = false
+        interfaceNumber += num
+        interfaceText.textContent = interfaceNumber
+}}
+
+function getDecimal() {
+    if (!interfaceNumber.includes(".")) {
+        resetDisplay()
+        getDigit(".")
+    }
+}
+
+function getOperator(op) {
+
+    numPressed = false
+    equalPressed = false
+
+    if (storedNumberOne == "") {
+        symPressed = true
+    }
+    
+    interfaceEquation.textContent = ` ${op} `
+ 
+    if (isTypingValue == false) {
+        storedOperator = op
+    }
+
+    // Collects first value of equation 
+    if (storedNumberOne === '') {
+        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
+        storedOperator = op
+        pauseEqual = true
+    }
+    // Changes the storedOperator without executing calculation
+    else if (symPressed) {
+        storedOperator = op
+    }
+    // Executes calculation
+    else if (symPressed == false) {
+        getResult()
+        storedOperator = op
+        interfaceEquation.textContent = storedNumberOne + ` ${op} `
+    }
+}
+
+function getPercentage() {
+
+    numPressed = false
+
+    if (storedNumberOne == '') {
+        storedNumberOne = percentage(parseFloat(interfaceNumber)).toString()
+        displayValue(storedNumberOne)
+    }
+
+    else {
+        storedNumberOne = percentage(storedNumberOne).toString()
+        displayValue(storedNumberOne)
+    }
+
+    numPressed = false
+    symPressed = true
+    isTypingValue = false
+}
+
+function posNeg() {
+
+    if (interfaceText.textContent !== "") {
+        interfaceNumber = (interfaceNumber * -1).toString()
+        interfaceText.textContent = interfaceNumber
+    }
+} 
+
+function calculate(valueOne, valueTwo) {
+
+    let result
+
+    if (storedOperator == "+") {
+        result = add(valueOne, valueTwo)
+    }
+
+    else if (storedOperator == "-") {
+        result = subtract(valueOne, valueTwo)
+    }
+
+    else if (storedOperator == "*") {
+        result = multiply(valueOne, valueTwo)
+    }
+
+    else if (storedOperator == "/") {
+        result = divide(valueOne, valueTwo)
+    }
+
+    return result
+}
+
+function getResult() {
+    if (pauseEqual == false) {
+
+        storedNumberTwo = collectValue(interfaceNumber, storedNumberTwo)
+        
+        let storedOneParse = parseFloat(storedNumberOne)
+        let storedTwoParse = parseFloat(storedNumberTwo)
+
+        storedNumberOne = parseFloat(calculate(storedOneParse, storedTwoParse))
+        displayValue(storedNumberOne)
+        
+        storedNumberTwo = ''
+        symPressed = true
+        isTypingValue = false 
+    } 
+}
+
+
+function add(a, b) {
+    return a + b
+}
+
+function subtract(a, b) {
+    return a - b
+}
+
+function multiply(a, b) {
+    return a * b
+}
+
+function divide(a, b) {
+    if (storedOperator == "/" && interfaceNumber !== "0") {
+        return a / b
+    }
+}
+
+function percentage(a) {
+    return a / 100
+}
 
 // Keyboard Functionality
 
@@ -232,10 +411,15 @@ document.addEventListener("keydown", function(e) {
     }
 
     else if (e.code == "Digit0"  || e.code == "Numpad0") {
-        resetDisplay()
-        getDigit("0")
-        zeroBtn.style.transform = "translateY(8%)"
-        zeroBtn.style.backgroundColor = "gold"
+        if (storedOperator == "/") {
+            interfaceText.textContent = "NOPE! TRY AGAIN!"
+        } 
+        else {
+            resetDisplay()
+            getDigit("0")
+            zeroBtn.style.transform = "translateY(8%)"
+            zeroBtn.style.backgroundColor = "gold"
+        }
     }
 
     else if (e.code == "Delete") {
@@ -282,16 +466,20 @@ document.addEventListener("keydown", function(e) {
             plusBtn.style.backgroundColor = "plum"
         }
         else {
+            if (storedNumberOne !== "" && pauseEqual == false) {
             getResult()
             equalPressed = true
+            }
             equalBtn.style.transform = "translateY(8%)"
             equalBtn.style.backgroundColor = "greenyellow"
         }
     }
 
     else if (e.code == "Enter" || e.code == "NumpadEnter") {
-        getResult()
-        equalPressed = true
+        if (storedNumberOne !== "" && pauseEqual == false) {
+            getResult()
+            equalPressed = true
+        }
         equalBtn.style.transform = "translateY(8%)"
         equalBtn.style.backgroundColor = "greenyellow"
     }
@@ -424,167 +612,3 @@ document.addEventListener("keyup", function(e) {
         posNegBtn.style.backgroundColor = "#fff"
     }
 })
-
-
-//  Functions
-
-
-function collectValue(passedValue, recipientValue) {
-    recipientValue = passedValue.toString()
-    numPressed = false
-    return recipientValue
-}
-
-function displayValue(value) {
-    return interfaceText.textContent = value.toString()
-}
-
-function resetDisplay() {
-    if (numPressed == false) {
-        interfaceNumber = ''
-        numPressed = true
-    }
-}
-
-function clearData() {
-    storedNumberTwo = ''
-    storedNumberOne = ''
-    interfaceNumber = ''
-    interfaceText.textContent = 0
-    interfaceEquation.textContent = 0
-    equationStep = 0 
-}
-
-function getDigit(num) {
-    if (equalPressed) {
-        clearData()
-        equalPressed = false
-    }
-
-    if (interfaceNumber.length <= 20) {
-        numPressed = true
-        symPressed = false
-        isTypingValue = true
-        interfaceNumber += num
-        interfaceText.textContent = interfaceNumber
-}}
-
-function getDecimal() {
-    if (!interfaceNumber.includes(".")) {
-        resetDisplay()
-        getDigit(".")
-    }
-}
-
-function getOperator(op) {
-
-    numPressed = false
-    interfaceEquation.textContent = ` ${op} `
- 
-   if (isTypingValue == false) {
-        storedOperator = op
-    }
-  
-    // Collects first value of equation 
-    if (storedNumberOne === '') {
-        storedNumberOne = collectValue(interfaceNumber, storedNumberOne)
-        storedOperator = op
-    }
-    // Changes the storedOperator without executing calculation
-    else if (symPressed) {
-        storedOperator = op
-    }
-    // Executes calculation
-    else if (symPressed == false) {
-        getResult()
-        storedOperator = op
-        interfaceEquation.textContent = storedNumberOne + ` ${op} `
-    }
-}
-
-function getPercentage() {
-
-    if (storedNumberOne == '') {
-        storedNumberOne = percentage(parseFloat(interfaceNumber)).toString()
-        displayValue(storedNumberOne)
-    }
-
-    else {
-        storedNumberOne = percentage(storedNumberOne).toString()
-        displayValue(storedNumberOne)
-    }
-
-    console.log(displayValue(storedNumberOne))
-    
-    numPressed = false
-    symPressed = true
-    isTypingValue = false
-}
-
-function posNeg() {
-
-    if (interfaceText.textContent !== "") {
-        interfaceNumber = (interfaceNumber * -1).toString()
-        interfaceText.textContent = interfaceNumber
-    }
-} 
-
-function calculate(valueOne, valueTwo) {
-
-    let result
-
-    if (storedOperator == "+") {
-        result = add(valueOne, valueTwo)
-    }
-
-    else if (storedOperator == "-") {
-        result = subtract(valueOne, valueTwo)
-    }
-
-    else if (storedOperator == "*") {
-        result = multiply(valueOne, valueTwo)
-    }
-
-    else if (storedOperator == "/") {
-        result = divide(valueOne, valueTwo)
-    }
-
-    return result
-}
-
-function getResult() {
-
-    storedNumberTwo = collectValue(interfaceNumber, storedNumberTwo)
-
-    let storedOneParse = parseFloat(storedNumberOne)
-    let storedTwoParse = parseFloat(storedNumberTwo)
-
-    storedNumberOne = parseFloat(calculate(storedOneParse, storedTwoParse))
-    displayValue(storedNumberOne)
-    
-    storedNumberTwo = ''
-    symPressed = true
-    isTypingValue = false  
-    equationStep += 1 
-}
-
-function add(a, b) {
-    return a + b
-}
-
-function subtract(a, b) {
-    return a - b
-}
-
-function multiply(a, b) {
-    return a * b
-}
-
-function divide(a, b) {
-    return a / b
-}
-
-function percentage(a) {
-    return a / 100
-}
-
