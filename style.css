@@ -11,7 +11,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    /* background-color: white; */
     background-color: rgb(153, 116, 86);
     height: 100vh;
 }
@@ -19,10 +18,9 @@ body {
 /* Container */
 
 .calc-container {
-    /* position: fixed; */
     height: 550px;
     width: 370px;
-    margin-top: 100px;
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,10 +133,77 @@ footer {
     align-items: center;
     justify-content: center;
     height: 60px;
-    width: 100vw;
+    width: 110vw;
     background-color: tan;
     font-weight: 400;
     font-size: 20px;
 }
 
+@media (max-width: 360px) {
 
+    .calc-container {
+        width: 75vw;
+        height: 400px;
+        border: solid black 1px;
+    }
+
+    .calc-title {
+        font-size: 16px;
+    }
+
+    .calc-interface {
+        height: 60px;
+        border: solid black 1px;
+        
+    }
+
+    .interface-text {
+        font-size: 16px;
+    }
+
+    .calc-buttons {
+        border: solid black 1px;
+    }
+
+    button {
+        border: solid black 1px;
+        font-size: 18px;
+    }
+
+    .row-one > button, 
+    .row-two > button, 
+    .row-three > button,
+    .row-four > button,
+    .row-five > button {
+        width: 50px;
+        height: 30px;
+    }
+
+    footer {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 300px) {
+
+    .calc-container {
+        width: 90vw;
+    }
+}
+
+@media (max-height: 600px) {
+
+    .calc-container {
+        width: 350px;
+        height: 500px;
+    }
+
+    .row-one > button, 
+    .row-two > button, 
+    .row-three > button,
+    .row-four > button,
+    .row-five > button {
+        width: 60px;
+        height: 40px;
+    }
+}
